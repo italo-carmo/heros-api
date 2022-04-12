@@ -47,3 +47,4 @@ group :development do
 end
 
 gem "pg", "~> 1.3", :group => :production
+gem "active_model_serializers", "~> 0.10.13"
