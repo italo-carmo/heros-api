@@ -46,3 +46,4 @@ group :development do
   # gem "spring"
 end
 
+gem "pg", "~> 1.3", :group => :production
