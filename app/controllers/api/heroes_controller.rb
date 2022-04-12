@@ -20,7 +20,8 @@ class Api::HeroesController < ApplicationController
     @hero = Hero.new(hero_params)
 
     if @hero.save
-      render json: @hero, status: :created, location: @hero
+      #esse api_hero_url é para nao dar erro no create devido ao namespace
+      render json: @hero, status: :created, location: api_hero_url(@hero)
     else
       render json: @hero.errors, status: :unprocessable_entity
     end
