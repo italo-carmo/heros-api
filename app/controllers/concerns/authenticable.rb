@@ -7,7 +7,6 @@ module Authenticable
 
         unless valid_token?
             render json: {errors: "Acesso negado!"}, status: :unauthorized
-
         end
     end
 
