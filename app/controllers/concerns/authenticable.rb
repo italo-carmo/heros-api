@@ -6,14 +6,15 @@ module Authenticable
         @token ||= request.headers['Authorization']
 
         unless valid_token?
-            render json: {errors: "Acesso negado!"}, status: :unauthorized
+            #acesso negado:
+            #render json: {errors: "Acesso negado!"}, status: :unauthorized
+            render json: {errors: "Forneça um header Authorization Válido!"}, status: :unauthorized
         end
     end
 
     def valid_token?
-        print "Token printado"
-        print @token
-        print Rails.application.credentials.token
-        @token.present? && @token == Rails.application.credentials.token
+        #com token fixo:
+        #@token.present? && @token == Rails.application.credentials.token
+        @token.present? && @token.size>=10
     end
 end

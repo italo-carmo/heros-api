@@ -2,14 +2,14 @@ class Api::HeroesController < ApplicationController
   #adicionando o concern
   include Authenticable
 
-  before_action :authenticate_with_token, except: %i[index show]
+  before_action :authenticate_with_token
   before_action :set_hero, only: %i[ show update destroy ]
 
   # GET /heroes
   def index
     #trazendo por ordem alfabética de nome do jeito nao adequado
     #@heroes = Hero.all.order(:name)
-    @heroes = Hero.search_by_name(params[:term]).sorted_by_name
+    @heroes = Hero.by_token(@token).search_by_name(params[:term]).sorted_by_name
 
     render json: @heroes
   end
@@ -21,7 +21,8 @@ class Api::HeroesController < ApplicationController
 
   # POST /heroes
   def create
-    @hero = Hero.new(hero_params)
+    #inclui o token ao hero params
+    @hero = Hero.new(hero_params.to_h.merge!({token: @token}))
 
     if @hero.save
       #esse api_hero_url é para nao dar erro no create devido ao namespace
@@ -48,7 +49,7 @@ class Api::HeroesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_hero
-      @hero = Hero.find(params[:id])
+      @hero = Hero.by_token(@token).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
